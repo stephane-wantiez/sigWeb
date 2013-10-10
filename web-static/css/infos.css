@@ -1,0 +1,67 @@
+.player-preview{
+	width: 256px;
+	height: 256px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -128px;
+	margin-top: -128px;
+	background-image: url(../img/selection-1-2-1.png);
+}
+.player-name{
+	color: #caffff;
+	font-family: gunship;
+	font-size: 26px;
+	text-shadow: 1px 1px 0 black, -1px -1px 0 black, -1px 1px 0 black, 1px -1px 0 black,
+		3px 3px 7px #caffff, -3px -3px 7px #caffff, -3px 3px 7px #caffff, 3px -3px 7px #caffff;
+	text-align: center;
+	margin: 5px;
+}
+.player-title{
+	color: yellow;
+	font-family: gunship-italic;
+	font-size: 16px;
+	text-shadow: 2px 2px 0 black, -2px -2px 0 black, -2px 2px 0 black, 2px -2px 0 black;
+	text-align: center;
+	margin: 5px;
+}
+.player-progress{
+	width: 70px;
+	height: 14px;
+	background-image: url(../img/images/icon-star-off.png);
+	background-position: left center;
+	text-align: center;
+	margin: auto;
+}
+.player-progress-indic{
+	width: 40%;
+	height: 100%;
+	background-image: url(../img/images/icon-star-on.png);
+	background-position: left center;
+}
+.xp{
+	background-image: url(../img/images/icon-xp-small.png);
+	background-repeat: no-repeat;
+	background-position: right center;
+	padding-right: 16px;
+	line-height: 17px; 
+	color: skyblue;
+	text-shadow: 1px 1px 0 black, -1px -1px 0 black, -1px 1px 0 black, 1px -1px 0 black;
+}
+.hp{
+	background-image: url(../img/images/heart.png);
+	background-repeat: no-repeat;
+	background-position: right center;
+	padding-right: 18px;
+	color: red;
+	text-shadow: 1px 1px 0 black, -1px -1px 0 black, -1px 1px 0 black, 1px -1px 0 black;
+}
+.power{
+	color: yellow;
+	text-shadow: 1px 1px 0 black, -1px -1px 0 black, -1px 1px 0 black, 1px -1px 0 black;
+}
+dl{
+	position: absolute;
+	bottom: 0px;
+	left: 10px;
+}

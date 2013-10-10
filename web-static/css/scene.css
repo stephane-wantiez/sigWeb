@@ -1,0 +1,46 @@
+.scene-view{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+.scene{
+	position: absolute;
+	right: 0px;
+	bottom: -100px;
+	width: 4096px;
+	height: 2037px;
+	background-image: url(../img/forest.jpg);
+	background-position: bottom right;
+}
+
+.character{
+	position: absolute;
+}
+.character.kankrelat{
+	background-image: url(../img/idle-1.png);
+	width: 128px;
+	height: 128px;
+}
+.character.samurai{
+	background-image: url(../img/idle-1-2-1.png);
+	width: 128px;
+	height: 128px;
+}
+#player{
+	top: 1740px;
+	left: 3685px;
+}
+#ennemy1{
+	top: 1770px;
+	left: 3830px;
+	z-index: 1;
+}
+
+#ennemy2{
+	top: 1710px;
+	left: 3870px;
+	-webkit-transform: scale(0.8);
+}

@@ -1,0 +1,22 @@
+	#stats-window {
+		background-color: aqua;
+		vertical-align: top;
+		width: 500px;
+		position: absolute;
+		top: 10%;
+		left: 10%;
+	}
+	#stats-menu li {
+		background-color: rgb(26, 26, 177);
+		color: aqua;
+		font-family: fantasy;
+		border: 1px;
+		border-color: grey;
+		border-style:solid;
+	}
+	#stats-menu li.selected {
+		background-color: rgb(12, 12, 99);
+	}
+	#stats-perso-name {
+		
+	}

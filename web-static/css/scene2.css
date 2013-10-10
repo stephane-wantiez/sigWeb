@@ -1,0 +1,8 @@
+#game-scene {
+	position: absolute;
+	bottom: -20px;;
+	left: 0;
+	width: 4036px;
+	height: 2037px;
+	background-image: url("../img/forest.jpg");
+}

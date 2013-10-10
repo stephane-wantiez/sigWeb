@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>SIG - Cours web</title>
+
+<link rel="stylesheet" type="text/css" href="//localhost/sigWeb-static/css/base2.css">
+<link rel="stylesheet" type="text/css" href="//localhost/sigWeb-static/css/gui2.css">
+<link rel="stylesheet" type="text/css" href="//localhost/sigWeb-static/css/scene2.css">
+<link rel="stylesheet" type="text/css" href="//localhost/sigWeb-static/css/infos2.css">
+
+</head>
+
+<body>
+
+	<div id="game-screen">
+	
+		<div id="game-scene">
+			
+			<div id="hero" class="character hero">
+				<img id="hero-sprite" />
+			</div>
+			
+			<div id="enemy1" class="character enemy">
+				<img id="enemy1-sprite" class="enemy-sprite" />
+			</div>
+			
+			<div id="enemy2" class="character enemy">
+				<img id="enemy2-sprite" class="enemy-sprite" />
+			</div>
+			
+		</div>
+	
+		<div id="stats-window" class="window">
+			
+			<ul id="stats-menu">
+				<li id="stats-menu-infos" class="selected">Infos</li>
+				<li id="stats-menu-equip">Equipement</li>
+				<li id="stats-menu-stats">Statistiques</li>
+			</ul>
+			
+			<div id="stats-perso">
+			
+				<div id="stats-perso-name">Ulrich</div>
+				<div id="stats-perso-type">Samouraï</div>
+				
+				<div id="stats-perso-stars">2
+					<img id="stats-perso-stars-sprite"/>
+				</div>
+				
+				<div id="stats-perso-img">
+					<img id="stats-perso-img-large" />
+				</div>
+								
+				<dl id="stats-perso-values">
+					<dt>XP</dt>
+					<dd>
+						<span id="stats-perso-xp-value">456</span>
+						<span><img id="stats-perso-xp-icon"/></span>
+					</dd>
+					<dt>HP</dt>
+					<dd>
+						<span id="stats-perso-hp-value">120</span>
+						<span><img id="stats-perso-hp-icon"/></span>
+					</dd>
+					<dt>Puissance</dt>
+					<dd id="stats-perso-puissance-value">12</dd>
+				</dl>
+			
+			</div>
+		</div>
+	
+	</div>
+
+</body>
+</html>

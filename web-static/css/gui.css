@@ -1,0 +1,74 @@
+.window{
+	position: absolute;
+	height: 350px;
+	background: rgba(100, 100, 255, 0.8);
+	top: 20px;
+	left: 40px;
+	border: white solid 2px;
+}
+.window .menu{
+	height: 100%;
+	width: 160px;
+	float: left;
+	border-right: #caffff solid 2px;
+	font-size: 14px;
+}
+.menu ul{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+.menu li{
+	background-image: url(../img/images/goal.png);
+	background-repeat: no-repeat;
+	background-color: rgba(74, 74, 139, 0.75);
+	background-position: left center;
+	padding: 5px;
+	padding-left: 27px;
+	padding-top: 7px;
+	border: 2px outset;
+	cursor: pointer;
+	color: #caffff;
+	line-height: 28px;
+}
+.menu li:hover{
+	background-color: rgba(187, 187, 209, 0.76);
+}
+.menu li:active{
+	background-image: url(../img/images/goal-done.png);
+	border-style: inset;
+	background-color: rgba(0, 0, 0, 0.3);
+}
+.menu li.selected{
+	background-image: url(../img/images/goal-done.png);
+	background-color: rgba(0, 0, 0, 0.5);
+	cursor: default;
+	border-style: inset;
+}
+.window .content{
+	float: left;
+	height: 100%;
+	width: 400px;
+	position: relative;
+	background: rgba(0, 0, 0, 0.5);
+}
+dl{
+	margin: 10px;
+}
+dl > *{
+	margin: 2px 0px;
+	font-size: 12px;
+	line-height: 17px;
+}
+dt{
+	float: left;
+	clear: both;
+	width: 90px;
+	color: #caffff;
+}
+dt:after{
+	content: " :";
+}
+dd{
+	float: left;
+}
