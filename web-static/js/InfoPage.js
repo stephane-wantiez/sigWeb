@@ -30,9 +30,27 @@ InfoPage.prototype.refreshData = function(playerData){
     /*if (playerData.xp   ) $(".xp"   ).html(playerData.xp   );
     if (playerData.hp   ) $(".hp"   ).html(playerData.hp   );
     if (playerData.power) $(".power").html(playerData.power);*/
+    //console.log("Refreshing player data: " + playerData.toString());
+    if (playerData["name"]) {
+        this.$playerName.html(playerData["name"]).effect("shake");;
+    }
+    if (playerData["title"]) {
+        this.$playerTitle.html(playerData["title"]).effect("shake");;
+    }
+    if (playerData["progress"]) {
+        var progress = parseFloat(playerData["progress"]);
+        if (progress>1) progress=1;
+        else if (progress<0) progress=0;
+        var progressPercent = progress * 100;
+        this.$playerProgressIndic.css("width",progressPercent+"%").effect("bounce");
+        //console.log("Changed progress to " + progressPercent);
+    }
+    
     for(var elem in playerData){
         //$("."+elem).html(playerData[elem]);
-        this.attributeList[elem].html(playerData[elem]).effect("pulsate",{times:5,duration:300});
+        if (this.attributeList[elem]){
+            this.attributeList[elem].html(playerData[elem]).effect("pulsate",{times:5,duration:300});
+        }
     }
 };
 InfoPage.prototype.addAttribute = function(id, label){

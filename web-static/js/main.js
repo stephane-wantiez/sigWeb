@@ -22,4 +22,8 @@ function start(){
     infoPage.refreshData({
         power:543
         });
+        
+    $winObject = $("#main-window").hide();    
+    $showButton = $("<button>Infos</button>").css("position","absolute").button().click(function(){$winObject.toggle("easeInElastic");});
+    $("#gui").append($showButton);
 }

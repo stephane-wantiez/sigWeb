@@ -12,7 +12,7 @@ Page.prototype.append = function(content){
 Page.prototype.setVisible = function(visible){
 	//this.root.style.display = visible?"block":"none";
     if(visible){
-        $(this.root).show("slide");
+        $(this.root).show(/*"slide"*/"fade");
     } else {
         $(this.root).hide();
     }
