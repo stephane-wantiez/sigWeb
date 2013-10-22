@@ -37,13 +37,12 @@ InfoPage.prototype.refreshData = function(playerData){
     if (playerData["title"]) {
         this.$playerTitle.html(playerData["title"]).effect("shake");;
     }
-    if (playerData["progress"]) {
+    if (typeof(playerData["progress"]) != "undefined") {
         var progress = parseFloat(playerData["progress"]);
         if (progress>1) progress=1;
         else if (progress<0) progress=0;
         var progressPercent = progress * 100;
         this.$playerProgressIndic.css("width",progressPercent+"%").effect("bounce");
-        //console.log("Changed progress to " + progressPercent);
     }
     
     for(var elem in playerData){

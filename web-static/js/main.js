@@ -23,7 +23,8 @@ function start(){
         power:543
         });
         
-    $winObject = $("#main-window").hide();    
+    //$winObject = $("#main-window").hide();    
+    $winObject = $(win.root).hide();
     $showButton = $("<button>Infos</button>").css("position","absolute").button().click(function(){$winObject.toggle("easeInElastic");});
     $("#gui").append($showButton);
 }
