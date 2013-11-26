@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head>
+    <style>
+        canvas{
+            width:400px;
+            height: 300px;
+        }
+    </style>
+    <script>
+        function start()
+        {
+            var canvas = document.getElementById("myCanvas");
+            var g = canvas.getContext("2d");
+            
+            
+            
+            g.fillStyle = "red";
+            g.fillRect(0,0,canvas.width,canvas.height);
+            
+            g.fillStyle = "blue";
+            g.fillRect(100,100,canvas.width/2-50,canvas.height/2-50);
+        }
+    </script>
+</head>
+<body onload="start()">
+<canvas id="myCanvas">
+</body>
+</html>

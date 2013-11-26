@@ -1,11 +1,9 @@
-var Window = function(id, parent){
+var Window = function(id){
 	this.id = id;
-	this.parent = parent;
 	
 	this.root = document.createElement("div");
 	this.root.className = "window";
     this.root.setAttribute("id",this.id);
-	this.parent.appendChild(this.root);
     
     this.menu = document.createElement("div");
     this.menu.className = "menu";

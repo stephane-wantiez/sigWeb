@@ -1,11 +1,6 @@
-var Character = function(parent){
-	if(typeof(parent) == "undefined"){
-		return;
-	}
-	this.parent = parent;
-	this.$elm = $("<div>").addClass("character");
+var Character = function(){
 
-	this.parent.append(this.$elm);
+	this.$elm = $("<div>").addClass("character");
 
     this.revertDirection = false;
 

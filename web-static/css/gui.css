@@ -5,6 +5,16 @@
 	top: 20px;
 	left: 40px;
 	border: white solid 2px;
+    visibility: hidden;
+    opacity:0;
+    -webkit-transform:scale(0) rotate3d(1,1,1,-300deg);
+    -webkit-transform-origin: top left;
+    -webkit-transition: all 0.8s ease-out;
+}
+.window.visible{
+    visibility: visible;
+    opacity:1;
+	-webkit-transform:none;
 }
 .window .menu{
 	height: 100%;

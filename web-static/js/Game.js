@@ -25,15 +25,47 @@ var Game = function(){
 		power: 65,
 		progress: 0.8
 	});
-	$scene = $("#main-scene");
+    
+    $gui = $("#gui");
+    scene = $(".scene-view").get(0);
+    this.graphics = scene.getContext("2d");
+    this.graphics.canvas = scene;
+    
+    var sleep=5;
+    var assetsPath = "/sigWeb-static/";
+    var imagesPathPrefix = assetsPath + "img/getImage.php?url=";
+    var imagesPathSuffix = "&sleep="+sleep;
+    
+    imageList = {
+        "background"    : imagesPathPrefix +       "forest.jpg" + imagesPathSuffix,
+        "player-idle"   : imagesPathPrefix +   "idle-1-2-1.png" + imagesPathSuffix,
+        "player_attack" : imagesPathPrefix + "attack-1-2-1.png" + imagesPathSuffix,
+        "player-move"   : imagesPathPrefix +   "move-1-2-1.png" + imagesPathSuffix,
+        "mob-idle"      : imagesPathPrefix +       "idle-1.png" + imagesPathSuffix,
+        "mob-damage"    : imagesPathPrefix +     "damage-1.png" + imagesPathSuffix,
+        "mob-attack"    : imagesPathPrefix +     "attack-1.png" + imagesPathSuffix,
+        "mob-death"     : imagesPathPrefix +      "death-1.png" + imagesPathSuffix
+    };
+    var soundList = {};
+    
+    this.assetManager = new AssetManager();
+    this.assetManager.startLoading(imageList,soundList);
 
-	$("#gui").append($("<div>").button().css({position:"absolute",top:"5px",left:"5px"}).append("Menu").click(function(){
-		$(win.root).toggle('fade', 200);
+	$gui.append($("<div>").button().css({position:"absolute",top:"5px",left:"5px"}).append("Menu").click(function(){
+        if($(win.root).hasClass("visible"))
+        {
+            //console.log("clicked when visible");
+            $(win.root).removeClass("visible");
+        }
+        else
+        {
+            //console.log("clicked when invisible");
+            $(win.root).addClass("visible");
+        }
 	}));
-	$(win.root).hide();
 
-	player = new Player($scene);
-	camera = new Camera($scene, player);
+    player = new Player();
+	camera = new Camera(player);
 
 	player.setPosition(3530, 1770);
     //player.setPosition(100, 100);
@@ -46,11 +78,32 @@ var Game = function(){
 		}					
 	);
 };
-Game.prototype.mainLoop = function(){
+Game.prototype.mainLoop = function()
+{
 	var now = Date.now();
 	var globalTimeDelta = now - this.globalTime;
 	var localTimeDelta = Math.min(50, globalTimeDelta);
 	this.localTime += localTimeDelta;
+    
+    this.graphics.drawTimeMillis = now;
+    
+    this.graphics.clearRect(0,0,scene.width,scene.height);
+    
+    if(!this.assetManager.isDoneLoading())
+    {
+        this.assetManager.renderLoadingProgress(this.graphics);
+    }
+    else
+    {
+        this.graphics.save();    
+        
+        camera.render(this.graphics);
+        
+        this.graphics.drawImage(this.assetManager.getImage("background"),0,0);
+        
+        this.graphics.restore();
+        
+    }
 
-	player.update(localTimeDelta / 1000);
+	//player.update(localTimeDelta / 1000);
 };

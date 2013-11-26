@@ -1,7 +1,6 @@
-var Sprite = function(parent, id, url, width, height, colCount, rowCount, loop){
+var Sprite = function( id, url, width, height, colCount, rowCount, loop){
 	this.id = id;
 	this.loop = loop;
-	this.parent = parent;
 	this.rowCount = rowCount;
 	this.colCount = colCount;
 	this.frameCount = this.rowCount * this.colCount;
@@ -24,7 +23,6 @@ var Sprite = function(parent, id, url, width, height, colCount, rowCount, loop){
 		overflow: "hidden",
 		left: "0px"
 	});
-	this.parent.append(this.$elm);
 	this.hide();
 	this.onAnimationComplete = false;
 	
