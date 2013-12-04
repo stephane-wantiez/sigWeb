@@ -1,6 +1,11 @@
-var Player = function(){
+var Player = function(assetManager)
+{
 	var self = this;
 	Character.call(this);
+    
+    this.centerX =  64;
+    this.centerY = 120;
+    this.radius = 60;
     
     //TODO: bind event
     $(document).keyup(function(e){ self.onKeyUp(e.which);});
@@ -11,20 +16,28 @@ var Player = function(){
 		y: 200
 	};
 
-	this.spriteList = {/*
+	/*this.spriteList = {
 		"idle-left": new Sprite(this.$elm, "idle-left", "/sigWeb-static/img/sprite/revert-idle-1-2-1.png", 2048, 256, 16, 2, true),
 		"idle-right": new Sprite(this.$elm, "idle-right", "/sigWeb-static/img/sprite/idle-1-2-1.png", 2048, 256, 16, 2, true),
 		"attack-left": new Sprite(this.$elm, "attack-left", "/sigWeb-static/img/sprite/revert-attack-1-2-1.png", 2048, 128, 16, 1, false),
 		"attack-right": new Sprite(this.$elm, "attack-right", "/sigWeb-static/img/sprite/attack-1-2-1.png", 2048, 128, 16, 1, false),
 		"move-left": new Sprite(this.$elm, "move-left", "/sigWeb-static/img/sprite/revert-move-1-2-1.png", 896, 128, 7, 1, true),
-		"move-right": new Sprite(this.$elm, "move-right", "/sigWeb-static/img/sprite/move-1-2-1.png", 896, 128, 7, 1, true)*/
-	};
+		"move-right": new Sprite(this.$elm, "move-right", "/sigWeb-static/img/sprite/move-1-2-1.png", 896, 128, 7, 1, true)
+	};*/
+    
+    this.createSprite("idle",  assetManager.getImage("player-idle"  ), 2048, 256, 16, 2,  true);
+    this.createSprite("attack",assetManager.getImage("player-attack"), 2048, 128, 16, 1, false);
+    this.createSprite("move",  assetManager.getImage("player-move"  ),  896, 128,  7, 1,  true);
+    
+    for (var i in this.spriteList)
+    {
+        this.spriteList[i].setCenter(this.centerX,this.centerY);
+    }
 
-	this.keyList = {};/*
-	this.spriteList["move-left"].frameCount = 6;
-	this.spriteList["move-right"].frameCount = 6;
+	this.keyList = {};
+	this.spriteList["move"].frameCount = 6;
 	this.revertDirection = false;
-	this.setSprite("idle");*/
+	this.setSprite("idle");
 };
 Player.MIN_Y = 1455;
 Player.MAX_Y = 1920;
@@ -51,16 +64,14 @@ Player.prototype.setScale = function(scale){
         }
 };
 
-Player.MOVE_UP_KEY     = 90 ; // Z
-Player.MOVE_DOWN_KEY   = 83 ; // S
-Player.MOVE_LEFT_KEY   = 81 ; // Q
-Player.MOVE_RIGHT_KEY  = 68 ; // D
+Player.MOVE_UP_KEY     = 38 ; // up arrow
+Player.MOVE_DOWN_KEY   = 40 ; // down arrow
+Player.MOVE_LEFT_KEY   = 37 ; // left arrow
+Player.MOVE_RIGHT_KEY  = 39 ; // right arrow
 Player.MOVE_ATTACK_KEY = 32 ; // Space
 
-Player.prototype.update = function(deltaTime){
-
-    //console.log(this.keyList);
-    
+Player.prototype.update = function(deltaTime)
+{
 	var move = {x: 0, y: 0};    
     if (this.isKeyDown(Player.MOVE_LEFT_KEY )) move.x = -this.speed.x * deltaTime * this.scale;
     if (this.isKeyDown(Player.MOVE_RIGHT_KEY)) move.x =  this.speed.x * deltaTime * this.scale;
@@ -71,10 +82,18 @@ Player.prototype.update = function(deltaTime){
     var isAttacking = this.isKeyDown(Player.MOVE_ATTACK_KEY);
     
     if (move.x) this.revertDirection = move.x < 0;
-
     if (isMoving) this.move(move.x, move.y);
         
 	this.setSprite(isAttacking?"attack":(isMoving?"move":"idle"));
+};
+
+Player.prototype.attack = function()
+{
+    //console.log("attack");
+    game.checkCollisionWithEnemies(function(enemy)
+    {
+        enemy.addDamage(50);
+    });
 };
 
 Player.prototype.isKeyDown = function(k)
@@ -83,9 +102,13 @@ Player.prototype.isKeyDown = function(k)
 }
 
 Player.prototype.onKeyDown = function(k){
+    //console.log("Key down: " + k);
     this.keyList[k] = true;
+    
+    if (k == Player.MOVE_ATTACK_KEY) this.attack();
 };
 Player.prototype.onKeyUp = function(k){
+    //console.log("Key up: " + k);
     this.keyList[k] = false;
 
 };

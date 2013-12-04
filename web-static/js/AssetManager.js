@@ -5,6 +5,7 @@ var AssetManager = function(){
 	this.imagesToLoad = {};
 	this.soundsToLoad = {};
 	this.loadingStarted = false;
+    this.renderAlpha = 1;
 };
 AssetManager.prototype.loadImage = function(url, id){
 	var _this = this;
@@ -74,10 +75,18 @@ AssetManager.prototype.assetLoaded = function(){
 	this.loadingTime = Date.now() - this.loadingStartTime;
 	this.loadingEndTime = Date.now();
 };
+AssetManager.prototype.setRenderAlpha = function(a){
+    this.renderAlpha = a;
+};
 AssetManager.prototype.renderLoadingProgress = function(g){
     //console.log("Progress: " + this.getLoadingProgress());
     
     g.save();
+    
+    g.globalAlpha = this.renderAlpha;
+    
+    g.fillStyle = "black";
+    g.fillRect(0,0,g.canvas.width,g.canvas.height);
     g.translate(g.canvas.width/2-100,g.canvas.height/2-10);
     
     var gradient = g.createLinearGradient(0,0,200,20);
@@ -93,6 +102,8 @@ AssetManager.prototype.renderLoadingProgress = function(g){
     g.font = "10px gunship";
     g.fillStyle = "black";
     g.fillText("Loading: " + this.getLoadingProgress() * 100 + "%",50,14);
+    
+    //g.globalAlpha = 1;
     
     g.restore();
 };

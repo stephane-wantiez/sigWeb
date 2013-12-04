@@ -1,6 +1,11 @@
 <!doctype html>
 <html>
 <head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.10/themes/base/jquery-ui.css"/>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/sigWeb-static/js/utils.js"></script>
     <style>
         canvas{
             width:400px;
@@ -12,14 +17,18 @@
         {
             var canvas = document.getElementById("myCanvas");
             var g = canvas.getContext("2d");
-            
-            
-            
-            g.fillStyle = "red";
+ 
+            g.fillStyle = "blue";
             g.fillRect(0,0,canvas.width,canvas.height);
             
-            g.fillStyle = "blue";
-            g.fillRect(100,100,canvas.width/2-50,canvas.height/2-50);
+            var rect = {
+                x : canvas.width/2-50,
+                y : canvas.height/2-50,
+                width : 100,
+                height : 100
+            };
+            
+            $.showEase(g,rect,$.easeInCustom);
         }
     </script>
 </head>
