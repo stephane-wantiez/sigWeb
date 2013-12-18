@@ -8,8 +8,6 @@
 }
 .scene{
 	position: absolute;
-	/*right: 0px;
-	bottom: -100px;*/
 	width: 4096px;
 	height: 2037px;
 	background-image: url(../img/forest.jpg);
