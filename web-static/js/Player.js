@@ -25,6 +25,8 @@ var Player = function(assetManager)
 		"move-right": new Sprite(this.$elm, "move-right", "/sigWeb-static/img/sprite/move-1-2-1.png", 896, 128, 7, 1, true)
 	};*/
     
+    this.shootShound = assetManager.getSound("sound");
+    
     this.createSprite("idle",  assetManager.getImage("player-idle"  ), 2048, 256, 16, 2,  true);
     this.createSprite("attack",assetManager.getImage("player-attack"), 2048, 128, 16, 1, false);
     this.createSprite("move",  assetManager.getImage("player-move"  ),  896, 128,  7, 1,  true);
@@ -89,6 +91,9 @@ Player.prototype.update = function(deltaTime)
 
 Player.prototype.attack = function()
 {
+    this.shootShound.currentTime = 0;
+    this.shootShound.play();
+
     //console.log("attack");
     game.checkCollisionWithEnemies(function(enemy)
     {

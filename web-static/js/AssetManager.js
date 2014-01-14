@@ -37,35 +37,47 @@ AssetManager.prototype.loadSound = function(url, id, onload){
 	if(!id){
 		id = url;
 	}
-	if(this.sounds[id]){
+	if(this.sounds[id])
+    {
 		this.assetLoaded();
-	}else{
-		this.soundsToLoad[id] = url;
-		var sound = soundManager.createSound({
-			id: id,
-			url: url,
-			autoLoad: true,
-			autoPlay: false,
-			onload: function() {
-				delete _this.soundsToLoad[id];
-				_this.assetLoaded();
-				if(onload){
-					onload(sound);
-				}
-			},
-			volume: 100
-		});
-		
-		sound.playLoop = function(){
-			this.play({			
-				onfinish: function() {
-					if(!this._play || user.data.soundEnabled){
-						this.playLoop();
-					}
-				}
-			});
-		};
-		this.sounds[id] = sound;
+	}
+    else
+    {
+        /**
+          HTML :
+            <audio id="myAudio">
+                <source type="audio/mpeg" url="mySoundUrl"/>
+            </audio>
+        **/
+        
+        this.soundsToLoad[id] = url;
+    
+        var soundElem = new Audio();
+        
+        soundElem.addEventListener("canplay",function(){
+            delete _this.soundsToLoad[id];
+            _this.assetLoaded();
+        });
+        soundElem.addEventListener("stalled",function(){
+            delete _this.soundsToLoad[id];
+            console.log("Error loading sound " + url);
+            _this.assetLoaded();
+        });
+        
+        var sourceElem = document.createElement("source");
+        sourceElem.src = url;
+        
+        switch(url.substring(url.length-3))
+        {
+            case "mp3" : sourceElem.type = "audio/mpeg"; break;
+            case "wav" : sourceElem.type = "audio/wav"; break;
+            case "ogg" : sourceElem.type = "audio/ogg"; break;
+        }
+        
+        soundElem.appendChild(sourceElem);
+        document.body.appendChild(soundElem);
+        
+		this.sounds[id] = soundElem;
 	}
 	return this.sounds[id];
 };

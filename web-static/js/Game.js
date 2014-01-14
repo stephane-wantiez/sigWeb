@@ -36,6 +36,7 @@ var Game = function()
     var assetsPath = "/sigWeb-static/";
     var imagesPathPrefix = assetsPath + "img/getImage.php?url=";
     var imagesPathSuffix = "&sleep="+sleep;
+    var soundsPath = assetsPath + "sounds/";
     
     imageList = {
         "background"    : imagesPathPrefix +              "forest.jpg" + imagesPathSuffix,
@@ -47,7 +48,10 @@ var Game = function()
         "mob-attack"    : imagesPathPrefix +     "sprite/attack-1.png" + imagesPathSuffix,
         "mob-death"     : imagesPathPrefix +      "sprite/death-1.png" + imagesPathSuffix
     };
-    var soundList = {};
+    var soundList = {
+        "music" : soundsPath + "test.mp3",
+        "sound" : soundsPath + "test.wav"
+    };
     
     this.assetManager = new AssetManager();
     this.assetManager.startLoading(imageList,soundList);
@@ -185,6 +189,13 @@ Game.prototype.mainLoop = function()
     {
         if (this.timeSinceLoadingEnd == 0) this.timeSinceLoadingEnd = now;
         alphaLoad = this.tween(1,0,this.timeSinceLoadingEnd,1000,$.easeOutExpoCustom);
+        
+        if (typeof(this.music) == "undefined")
+        {
+            this.music = this.assetManager.getSound("music");
+            this.music.loop = true;
+            this.music.play();
+        }
     
         this.graphics.save();    
         
