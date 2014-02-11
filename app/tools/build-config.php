@@ -10,7 +10,7 @@ $configType = $argv[1];
 
 echo 'Building config file for ' . $configType . NL;
 
-$mainPath = "./config/";
+$mainPath = "../config/";
 $secPath = $mainPath . $configType . '/';
 
 $pathes = [ $mainPath, $secPath ];
@@ -40,9 +40,10 @@ foreach( $pathes as $path )
 
 ksort($filesContent);
 
-$outputFileName = 'config.php';
+$outputFileName = '../config.php';
 $outputFile = fopen($outputFileName,'w');
 fwrite($outputFile,'<?php ');
+fwrite($outputFile, NL . '/** ' . NL . '* Script file generated on ' . date(DATE_RFC2822) . NL . '**/' . NL . NL);
 
 foreach ( $filesContent as $file => $content )
 {

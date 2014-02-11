@@ -1,3 +1,7 @@
+/** 
+* Script file generated on Tue, 11 Feb 2014 09:02:32 +0000
+**/
+
 
 /** From file ../web-static/js/base/AssetManager.js **/
 
@@ -619,7 +623,7 @@ Sprite.prototype.setScale = function(scale)
 };
 
 
-/** From file ../web-static/js/base/utils.js **/
+/** From file ../web-static/js/base/utils/utils.js **/
 
 window.requestAnimFrame = (function() {
   return window.requestAnimationFrame ||

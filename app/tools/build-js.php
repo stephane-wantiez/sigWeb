@@ -31,14 +31,15 @@ function browseDir($path,&$filesContent)
 function treatFile($path,&$filesContent)
 {
     $content = file_get_contents($path) . NL . NL ;
-    $content = str_replace('<?php','',$content);
+    //$content = str_replace('<?php','',$content);
     $filesContent[$path] = $content;
 }
 
 function generateConfigFile(&$filesContent)
 {
-    $outputFileName = 'scripts.js';
+    $outputFileName = '../scripts.js';
     $outputFile = fopen($outputFileName,'w');
+    fwrite($outputFile, '/** ' . NL . '* Script file generated on ' . date(DATE_RFC2822) . NL . '**/' . NL . NL);
 
     foreach ( $filesContent as $file => $content )
     {
