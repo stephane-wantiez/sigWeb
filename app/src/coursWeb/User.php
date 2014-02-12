@@ -22,9 +22,39 @@ class User
 		$this->power = (int) $power;
 	}
 	
+	public function addXP($xpIncrement)
+	{		
+		$db = App::getInstance()->getDb();
+		$query = $db->prepare('UPDATE user SET xp=xp+:xpInc WHERE id=:id');		
+		if (!$query->execute([ 'xpInc' => $xpIncrement, 'id' => $this->id ]))
+		{
+			throw new UserException("Couldn't update user XP in DB");
+		}
+
+		$query = $db->prepare('SELECT xp FROM user WHERE id=:id');		
+		if (!$query->execute([ 'id' => $this->id ]))
+		{
+			throw new UserException("Couldn't update user XP in DB");
+		}
+		
+		$res = $query->fetch();
+		if (!$res)
+		{
+			throw new UserException("Couldn't read new user XP from DB");
+		}
+		
+		$this->xp = $res->xp;
+		return $this->xp;
+	}
+	
 	public function toJSON()
 	{
-		return json_encode($this);
+		return json_encode([
+			'name'  => $this->login,
+			'xp'    => $this->xp,
+			'hp'    => $this->hp,
+			'power' => $this->power
+		]);
 	}
 	
 	private static function getPasswordHash($password)

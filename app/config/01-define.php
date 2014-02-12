@@ -11,3 +11,5 @@ define('VENDOR_PATH', PROJECT_PATH . 'vendor/' );
 
 define('SRC_PATH', APP_PATH . 'src/' );
 define('TEMPLATES_PATH', APP_PATH . 'templates/' );
+
+define('ENCRYPT_ENABLED', false );

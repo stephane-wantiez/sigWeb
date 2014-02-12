@@ -36,6 +36,10 @@ $.getElmRegion = function(elm){
 	};
 };
 
+$.isDefined = function(elem){
+	return typeof(elem) !== "undefined";
+};
+
 $.ease = function(from, to, func, options){
 	var isObject = true;
 	if(typeof from != "object"){
@@ -84,7 +88,7 @@ $.shuffle = function(list){
 $.clamp = function(value,min,max)
 {
     return Math.max(Math.min(value,max),min);
-}
+};
 
 $.distanceBetweenPointsSquared = function(p1x,p1y,p2x,p2y)
 {
@@ -159,4 +163,44 @@ $.showEase = function(g,rect,ease)
     }
     
     g.restore();
+};
+
+$.gameComm =
+{
+	api : function(action,data,resCallback)
+	{
+		var dataToSend = {action : action, data : data};
+		if (ENCRYPT_ENABLED)
+		{
+			dataToSend = { d : Aes.Ctr.encrypt(JSON.stringify(dataToSend), 't1pGs9g36eE8NctIFO90O887g0Q1vmO1', 256) };
+		}
+		
+		$.ajax({
+			url: 'api.php',
+			method: 'POST',
+			data: dataToSend,
+			success: function(res)
+			{				
+	            console.log('Server answer: ' + res);
+	            
+	            if($.isDefined(res.error))
+	        	{
+	                alert(res.error);
+	                if($.isDefined(res.reload) && res.reload)
+	                {
+	                	location.href="index.php";
+	                }
+	        	}
+	            else
+	            {
+	            	resCallback(res);
+	            }
+			},
+			error: function(o)
+			{
+				console.log('Failure:');
+				console.log(o);
+			}
+		});
+	}
 };

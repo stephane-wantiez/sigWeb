@@ -98,13 +98,24 @@ Player.prototype.attack = function()
     game.checkCollisionWithEnemies(function(enemy)
     {
         enemy.addDamage(50);
+        var xpIncrement = 2;
+        if (enemy.dying) xpIncrement += 10;
+        
+        $.gameComm.api('addXP',xpIncrement,function(res)
+        {
+        	if($.isDefined(res.xp))
+        	{
+        		playerInfo.xp = res.xp;
+                infoPage.refreshData();
+        	}
+        });
     });
 };
 
 Player.prototype.isKeyDown = function(k)
 {
     return this.keyList[k];
-}
+};
 
 Player.prototype.onKeyDown = function(k){
     //console.log("Key down: " + k);

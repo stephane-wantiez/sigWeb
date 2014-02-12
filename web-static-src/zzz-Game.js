@@ -18,14 +18,15 @@ var Game = function()
 		console.log("New Exception : " + e);
 	}
 	
-	infoPage.refreshData({
-		name: user.login,
-		title: "dummy title",
-		xp: user.xp,
-		hp: user.hp,
-		power: user.power,
-		progress: 0.8
-	});
+	playerInfo = {
+			name: user.name,
+			title: "dummy title",
+			xp: user.xp,
+			hp: user.hp,
+			power: user.power,
+			progress: 0.8
+	};
+	infoPage.refreshData();
     
     $gui = $("#gui");
     scene = $(".scene-view").get(0);
@@ -64,6 +65,7 @@ var Game = function()
         }
         else
         {
+        	infoPage.refreshData();
             console.log("clicked when invisible");
             $(win.root).addClass("visible");
         }

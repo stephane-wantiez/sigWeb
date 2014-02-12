@@ -26,21 +26,21 @@ var InfoPage = function(){
 };
 InfoPage.prototype = new Page();
 
-InfoPage.prototype.refreshData = function(playerData){
-	for(var i in playerData){
+InfoPage.prototype.refreshData = function(){
+	for(var i in playerInfo){
 		switch(i){
 		case "name":
-			this.$playerName.html(playerData.name);
+			this.$playerName.html(playerInfo.name);
 			break;
 		case "title":
-			this.$playerTitle.html(playerData.title);
+			this.$playerTitle.html(playerInfo.title);
 			break;
 		case "progress":
-			this.$playerProgressIndic.css("width", Math.round(playerData.progress * 100) + '%');
+			this.$playerProgressIndic.css("width", Math.round(playerInfo.progress * 100) + '%');
 			break;
 		default:
 			if(typeof(this.attributeList[i]) != "undefined"){
-				this.attributeList[i].html(playerData[i]);
+				this.attributeList[i].html(playerInfo[i]);
 			}
 		}
 	}

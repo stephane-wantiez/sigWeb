@@ -126,4 +126,32 @@ class App
             include( TEMPLATES_PATH . 'login.tpl' );
         }
     }
+    
+    public function api($action,$data)
+    {
+    	$res = false;
+    	
+   		try
+   		{
+	    	if (!isset($_SESSION['user']))
+	    	{
+	    		throw new UserException('The user session has expired');
+	    	}
+	    	else
+	    	{
+	    		$user = $_SESSION['user'];
+    				
+		    	switch($action)
+		    	{
+		    		case 'addXP': $resXP = $user->addXP($data); $res = [ 'xp' => $resXP ]; break;
+		    	}				    	
+	    	}
+   		}
+   		catch(UserException $e)
+   		{
+   			$res = [ 'error' => $e->getMessage(), 'reload' => true ];
+   		}
+   		
+		if ($res) echo json_encode($res);
+    }
 }

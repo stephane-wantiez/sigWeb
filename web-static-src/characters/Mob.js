@@ -9,6 +9,8 @@ var Mob = function(assetManager,id)
     this.centerY = 120;
     this.radius = 60;
     
+    this.dying = false;
+    
     this.createSprite("idle",  assetManager.getImage("mob-idle"  ), 2048, 128, 16, 1,  true);
     this.createSprite("attack",assetManager.getImage("mob-attack"), 1536, 128, 12, 1, false);
     this.createSprite("damage",assetManager.getImage("mob-damage"), 1920, 128, 15, 1, false);
@@ -86,6 +88,7 @@ Mob.prototype.addDamage = function(dmg)
     
     if (this.health <= 0)
     {
+    	this.dying = true;
         this.setSprite("death");
         var self = this;
         setTimeout( function(){self.kill();}, Mob.DISAPPEAR_DELAY );
