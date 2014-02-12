@@ -13,11 +13,11 @@ include('header.tpl');
 <?php } ?>
 
 <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-    <div>
+    <div style="color:white;">
         <label for="login">Login: </label> 
         <input type="text" id="login" name="login"></input>
     </div>
-    <div>
+    <div style="color:white;">
         <label for="password">Password: </label> 
         <input type="password" id="password" name="password"></input>
     </div>

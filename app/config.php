@@ -1,6 +1,6 @@
 <?php 
 /** 
-* Script file generated on Tue, 11 Feb 2014 16:09:28 +0000
+* Script file generated on Wed, 12 Feb 2014 10:12:56 +0000
 **/
 
 
@@ -51,5 +51,6 @@ define( 'WEB_STATIC_URI', '/sigWeb-static/' );
 
 /** From file 20-session.php **/
 
+session_name('SIGWEB_SESSID');
 session_start();
 

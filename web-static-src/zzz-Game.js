@@ -19,11 +19,11 @@ var Game = function()
 	}
 	
 	infoPage.refreshData({
-		name: "Johnny",
-		title: "be good",
-		xp: 200,
-		hp: 643,
-		power: 65,
+		name: user.login,
+		title: "dummy title",
+		xp: user.xp,
+		hp: user.hp,
+		power: user.power,
 		progress: 0.8
 	});
     
@@ -59,14 +59,20 @@ var Game = function()
 	$gui.append($("<div>").button().css({position:"absolute",top:"5px",left:"5px"}).append("Menu").click(function(){
         if($(win.root).hasClass("visible"))
         {
-            //console.log("clicked when visible");
+            console.log("clicked when visible");
             $(win.root).removeClass("visible");
         }
         else
         {
-            //console.log("clicked when invisible");
+            console.log("clicked when invisible");
             $(win.root).addClass("visible");
         }
+	}));
+	$gui.append($("<div>").button().css({position:"absolute",top:"5px",right:"80px"}).append("Logout").click(function(){
+        location.href="?logout";
+	}));
+	$gui.append($("<div>").button().css({position:"absolute",top:"5px",right:"5px"}).append("Delete User").click(function(){
+        location.href="?delete";
 	}));
 
     player = new Player(this.assetManager);

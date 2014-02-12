@@ -35,26 +35,33 @@ function treatFile($path,&$filesContent)
     $filesContent[$path] = $content;
 }
 
-function generateConfigFile(&$filesContent)
+function generateConfigFile(&$filesContent,$targetFile)
 {
-    $outputFileName = '../scripts.js';
-    $outputFile = fopen($outputFileName,'w');
+    $outputFile = fopen($targetFile,'w');
     fwrite($outputFile, '/** ' . NL . '* Script file generated on ' . date(DATE_RFC2822) . NL . '**/' . NL . NL);
 
     foreach ( $filesContent as $file => $content )
     {
-        fwrite($outputFile,NL . '/** From file ' . $file . ' **/' . NL . NL);
+    	$filePath = realpath($file);
+        fwrite($outputFile,NL . '/** From file ' . $filePath . ' **/' . NL . NL);
         fwrite($outputFile,$content);
-        echo 'File ' . $file . ' written' . NL;
+        echo 'File ' . $filePath . ' written' . NL;
     }
 
     fclose($outputFile);
 }
 
-$basePath = '../web-static/js';
+$basePath = '../../';
+$sourcePath = $basePath . 'web-static-src/';
+$targetFile = $basePath . 'web-static/js/script.js';
 $filesContent = [];
 
-browseDir($basePath,$filesContent);
-ksort($filesContent);
-generateConfigFile($filesContent);
+echo "Building JavaScript script file..." . NL;
+echo "Source path: " . realpath($sourcePath) . NL;
+echo "Target file: " . $targetFile . NL;
 
+browseDir($sourcePath,$filesContent);
+ksort($filesContent);
+generateConfigFile($filesContent,$targetFile);
+
+echo "Generation done.";

@@ -4,8 +4,7 @@ namespace coursWeb;
 
 class App
 {
-    const LOGIN_MIN_LENGTH = 3;
-
+	const PAGE_LOCATION = 'Location: index.php';
     private static $instance = null;
     private $db;
     
@@ -25,91 +24,97 @@ class App
         }
         return self::$instance;
     }
+    
+    public function getDb()
+    {
+    	return $this->db;
+    }
+    
+    private function reloadPage()
+    {
+    	header(self::PAGE_LOCATION);
+    	exit;
+    }
+    
+    private function reloadPageWithParams($params)
+    {
+    	$loc = self::PAGE_LOCATION;
+    	$firstParam = true;
+    	foreach($params as $paramKey => $paramValue)
+    	{
+    		$loc = $loc . ($firstParam ? '?' : '&') . $paramKey . "=" . $paramValue;
+    		$firstParam = false;
+    	}
+    	header($loc);
+    	exit;
+    }
 
     public function run()
     {
-        /*$query = $this->db->prepare('SELECT name,id FROM testtable ORDER BY name');
-        $data = [];
-
-        if ($query->execute())
-        {
-            $data = $query->fetchAll();
-        }*/
-        
-
         $okMessage = false;
         $errorMessage = false;
         $userData = false;
         
-        if (isset($_REQUEST["action-login"]) || isset($_REQUEST["action-register"]))
+        if (isset($_REQUEST['user-created']))
         {
-            if (!isset($_REQUEST["login"]))
-            {
-                $errorMessage = 'The login is missing!';
-            }
-            else if (!isset($_REQUEST["password"]))
-            {
-                $errorMessage = 'The password is missing!';
-            }
-            else
-            {
-                $login = trim($_REQUEST["login"]);
-                $password = $_REQUEST["password"];
-                
-                if (isset($_REQUEST["action-register"]))
-                {   
-                    if (strlen($login) < self::LOGIN_MIN_LENGTH)
-                    {
-                        $errorMessage = 'The login is too short!';
-                    }
-                    else
-                    {   
-                        $query = $this->db->prepare('SELECT 1 as value FROM user WHERE login=:login');
-                    
-                        if ($query->execute([ 'login' => $login ]))
-                        {                         
-                            if ($query->fetch())
-                            {
-                                $errorMessage = 'The login already exists!';
-                            }
-                            else
-                            {            
-                                $query = $this->db->prepare('INSERT INTO user ( login, password ) VALUES ( :login , :password )');
-                                
-                                if ($query->execute([ 'login' => $login, 'password' => $password ]))
-                                {
-                                    header('Location: testoo.php');
-                                    exit;
-                                }
-                                else
-                                {
-                                    $errorMessage = 'Error while creating the user';
-                                }
-                            }
-                        }
-                    }
-                }
-                else if (isset($_REQUEST["action-login"]))
-                {
-                    $query = $this->db->prepare('SELECT * FROM user WHERE login=:login AND password=:password');
-                    
-                    if ($query->execute([ 'login' => $login , 'password' => $password ]))
-                    {
-                        $userData = $query->fetch();
-                        
-                        if (!$userData)
-                        {
-                            $errorMessage = 'Invalid login!';
-                        }
-                        else
-                        {
-                            $_SESSION['user'] = $userData;
-                            header('Location: testoo.php');
-                            exit;
-                        }
-                    }
-                }
-            }
+        	$okMessage = 'User ' . $_REQUEST['user-created'] . ' created';
+        }
+        else if (isset($_REQUEST['user-deleted']))
+        {
+        	$okMessage = 'User deleted';
+        }
+        
+        try
+        {        	
+	        if (isset($_REQUEST['logout']))
+	        {
+	        	session_destroy();
+				$this->reloadPage();        	
+	        }
+	        else if (isset($_REQUEST['delete']) && isset($_SESSION['user']))
+	        {
+	        	$_SESSION['user']->delete();
+	        	session_destroy();
+				$this->reloadPageWithParams(['user-deleted' => 1]);
+	        }
+	        else if (isset($_REQUEST['action-login']) || isset($_REQUEST['action-register']))
+	        {
+	            if (!isset($_REQUEST['login']))
+	            {
+	                $errorMessage = 'The login is missing!';
+	            }
+	            else if (!isset($_REQUEST['password']))
+	            {
+	                $errorMessage = 'The password is missing!';
+	            }
+	            else
+	            {
+	                $login = trim($_REQUEST['login']);
+	                $password = $_REQUEST['password'];
+	                
+	                if (isset($_REQUEST['action-register']))
+	                {
+                		User::register($login, $password);
+                		$this->reloadPageWithParams(['user-created' => $login]);
+	                }
+	                else if (isset($_REQUEST['action-login']))
+	                {
+	                	$logged = User::login($login, $password);
+	                	if (!$logged)
+	                	{
+	                		$errorMessage = 'Invalid login and/or password for user';
+	                	}
+	                	else
+	                	{
+							$this->reloadPage();
+	                	}
+	                }
+	            }
+	        }        
+        }
+        catch(UserException $e)
+        {
+        	$errorMessage = $e->getMessage();
         }
         
         if (isset($_SESSION['user']))

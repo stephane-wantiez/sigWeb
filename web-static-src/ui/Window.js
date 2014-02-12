@@ -1,4 +1,4 @@
-var Window = function(id){
+var Window = function(id,parent){
 	this.id = id;
 	
 	this.root = document.createElement("div");
@@ -15,6 +15,8 @@ var Window = function(id){
     this.content = document.createElement("div");
     this.content.className = "content";
     this.root.appendChild(this.content);
+    
+    parent.appendChild(this.root);
 	
 	this.currentLink = null;
 };
