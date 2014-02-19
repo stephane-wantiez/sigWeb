@@ -2,6 +2,9 @@
 var InfoPage = function(){
 	Page.call(this, "");
 	
+	this.$playerPicture = $("<img/>").addClass("player-picture");
+	this.append(this.$playerPicture);
+	
 	this.$playerPreview = $("<div/>").addClass("player-preview");
 	this.append(this.$playerPreview);
 
@@ -37,6 +40,9 @@ InfoPage.prototype.refreshData = function(){
 			break;
 		case "progress":
 			this.$playerProgressIndic.css("width", Math.round(playerInfo.progress * 100) + '%');
+			break;
+		case "picture":
+			this.$playerPicture.attr("src", playerInfo.picture);
 			break;
 		default:
 			if(typeof(this.attributeList[i]) != "undefined"){

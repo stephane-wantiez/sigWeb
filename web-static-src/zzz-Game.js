@@ -6,6 +6,17 @@ var Game = function()
 	this.globalTime = 0;
 	this.timeSinceLoadingEnd = 0;
 
+	playerInfo = {
+		name: user.name,
+		title: "dummy title",
+		xp: user.xp,
+		hp: user.hp,
+		power: user.power,
+		progress: 0.8,
+		picture: user.picture,
+		friends: user.friends
+	};
+
 	//var win = new Window('main-window', document.getElementById("gui"));
 	var win = new Window('main-window', document.getElementById("gui"));
 	
@@ -14,18 +25,11 @@ var Game = function()
 		win.addPage("info", infoPage);
 		win.addPage("description", new Page("<strong>hello</strong> world"));
 		win.addPage("equipement", new Page("lorem ipsum"));
+		win.addPage("amis", new FriendsPage(playerInfo.friends));
 	}catch(e){
 		console.log("New Exception : " + e);
 	}
 	
-	playerInfo = {
-			name: user.name,
-			title: "dummy title",
-			xp: user.xp,
-			hp: user.hp,
-			power: user.power,
-			progress: 0.8
-	};
 	infoPage.refreshData();
     
     $gui = $("#gui");
@@ -70,7 +74,7 @@ var Game = function()
             $(win.root).addClass("visible");
         }
 	}));
-	$gui.append($("<div>").button().css({position:"absolute",top:"5px",right:"80px"}).append("Logout").click(function(){
+	$gui.append($("<div>").button().css({position:"absolute",top:"5px",right:"100px"}).append("Logout").click(function(){
         location.href="?logout";
 	}));
 	$gui.append($("<div>").button().css({position:"absolute",top:"5px",right:"5px"}).append("Delete User").click(function(){

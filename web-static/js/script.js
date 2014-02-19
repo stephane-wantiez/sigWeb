@@ -1,5 +1,5 @@
 /** 
-* Script file generated on Wed, 12 Feb 2014 16:43:08 +0000
+* Script file generated on Wed, 19 Feb 2014 16:20:11 +0000
 **/
 
 
@@ -1345,8 +1345,8 @@ var Player = function(assetManager)
     this.radius = 60;
     
     //TODO: bind event
-    $(document).keyup(function(e){ self.onKeyUp(e.which);});
-    $(document).keydown(function(e){ lastEvent = e; self.onKeyDown(e.which);});
+    $(document).keyup(function(e){ e.preventDefault(); self.onKeyUp(e.which);});
+    $(document).keydown(function(e){ e.preventDefault(); lastEvent = e; self.onKeyDown(e.which);});
 	
 	this.speed = {
 		x: 600,
@@ -1490,11 +1490,57 @@ Page.prototype.setVisible = function(visible){
 };
 
 
+/** From file C:\workspace\sigWeb\web-static-src\ui\FriendsPage.js **/
+
+
+var FriendsPage = function(friends)
+{	
+	Page.call(this, "");
+	
+	this.$friendsList = $("<div>").addClass("friends-list");
+	this.append(this.$friendsList);
+	
+	for(var friendId in friends)
+	{
+		var friend = friends[friendId];
+		
+		var friendInfo = $("<div>").addClass("friend-info");
+		this.$friendsList.append(friendInfo);
+		
+		var friendId = $("<div>").addClass("friend-id").html(friend.id);
+		friendInfo.append(friendId);
+		
+		var friendName = $("<div>").addClass("friend-name").html(friend.name);
+		friendInfo.append(friendName);
+		
+		var friendXp = $("<div>").addClass("friend-xp").html(friend.xp);
+		friendInfo.append(friendXp);
+		
+		var friendPicture = $("<img/>").addClass("friend-picture").attr("src","http://graph.facebook.com/" + friend.id + "/picture");
+		friendInfo.append(friendPicture);
+		
+		friendInfo.data('fbId',friend.id);
+		friendInfo.click(function(){
+			FB.ui({
+				method: 'apprequests',
+				message: 'Kado!',
+				to: $(this).data('fbId'),
+				data: { val1: 'test' }
+			});
+		});
+	}
+};
+FriendsPage.prototype = new Page();
+
+
 /** From file C:\workspace\sigWeb\web-static-src\ui\InfoPage.js **/
 
 
 var InfoPage = function(){
 	Page.call(this, "");
+	
+	this.$playerPicture = $("<img/>").addClass("player-picture");
+	this.append(this.$playerPicture);
 	
 	this.$playerPreview = $("<div/>").addClass("player-preview");
 	this.append(this.$playerPreview);
@@ -1531,6 +1577,9 @@ InfoPage.prototype.refreshData = function(){
 			break;
 		case "progress":
 			this.$playerProgressIndic.css("width", Math.round(playerInfo.progress * 100) + '%');
+			break;
+		case "picture":
+			this.$playerPicture.attr("src", playerInfo.picture);
 			break;
 		default:
 			if(typeof(this.attributeList[i]) != "undefined"){
@@ -1621,6 +1670,17 @@ var Game = function()
 	this.globalTime = 0;
 	this.timeSinceLoadingEnd = 0;
 
+	playerInfo = {
+		name: user.name,
+		title: "dummy title",
+		xp: user.xp,
+		hp: user.hp,
+		power: user.power,
+		progress: 0.8,
+		picture: user.picture,
+		friends: user.friends
+	};
+
 	//var win = new Window('main-window', document.getElementById("gui"));
 	var win = new Window('main-window', document.getElementById("gui"));
 	
@@ -1629,18 +1689,11 @@ var Game = function()
 		win.addPage("info", infoPage);
 		win.addPage("description", new Page("<strong>hello</strong> world"));
 		win.addPage("equipement", new Page("lorem ipsum"));
+		win.addPage("amis", new FriendsPage(playerInfo.friends));
 	}catch(e){
 		console.log("New Exception : " + e);
 	}
 	
-	playerInfo = {
-			name: user.name,
-			title: "dummy title",
-			xp: user.xp,
-			hp: user.hp,
-			power: user.power,
-			progress: 0.8
-	};
 	infoPage.refreshData();
     
     $gui = $("#gui");
@@ -1685,7 +1738,7 @@ var Game = function()
             $(win.root).addClass("visible");
         }
 	}));
-	$gui.append($("<div>").button().css({position:"absolute",top:"5px",right:"80px"}).append("Logout").click(function(){
+	$gui.append($("<div>").button().css({position:"absolute",top:"5px",right:"100px"}).append("Logout").click(function(){
         location.href="?logout";
 	}));
 	$gui.append($("<div>").button().css({position:"absolute",top:"5px",right:"5px"}).append("Delete User").click(function(){
@@ -1853,6 +1906,16 @@ var infoPage;
 
 $(document).ready(function(){
 	console.log("game started");
+	
+	$.getScript('//connect.facebook.net/' + LOCALE + '/all.js', function()
+	{
+		FB.init({
+			appId: FB_APP_ID
+		});
+		FB.getLoginStatus(function(result){
+			console.log(result);
+		});
+	});
 
 	game = new Game();
 });

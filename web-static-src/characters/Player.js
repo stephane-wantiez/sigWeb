@@ -8,8 +8,8 @@ var Player = function(assetManager)
     this.radius = 60;
     
     //TODO: bind event
-    $(document).keyup(function(e){ self.onKeyUp(e.which);});
-    $(document).keydown(function(e){ lastEvent = e; self.onKeyDown(e.which);});
+    $(document).keyup(function(e){ e.preventDefault(); self.onKeyUp(e.which);});
+    $(document).keydown(function(e){ e.preventDefault(); lastEvent = e; self.onKeyDown(e.which);});
 	
 	this.speed = {
 		x: 600,

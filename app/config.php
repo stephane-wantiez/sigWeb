@@ -1,6 +1,6 @@
 <?php 
 /** 
-* Script file generated on Wed, 12 Feb 2014 16:43:10 +0000
+* Script file generated on Wed, 19 Feb 2014 13:05:53 +0000
 **/
 
 
@@ -44,11 +44,19 @@ $zendLoader->registerNamespace( 'aes',               VENDOR_PATH . 'aes' );
 $zendLoader->registerNamespace( 'passwordHashUtils', VENDOR_PATH . 'passwordHashUtils' );
 $zendLoader->registerNamespace( 'coursWeb',             SRC_PATH . 'coursWeb' );
 
+include VENDOR_PATH . 'facebook/facebook.php' ;
+
 
 
 /** From file 10-uri.php **/
 
 define( 'WEB_STATIC_URI', '/sigWeb-static/' );
+
+
+/** From file 20-facebook.php **/
+define('FB_APP_ID','663616497013077');
+define('FB_APP_SECRET','73deda9ba398def7150573f80d2b1476');
+define('FB_APP_NAMESPACE','sigwebswan');
 
 
 /** From file 20-session.php **/

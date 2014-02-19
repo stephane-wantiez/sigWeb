@@ -6,6 +6,7 @@ class App
 {
 	const PAGE_LOCATION = 'Location: index.php';
     private static $instance = null;
+    private $fb;
     private $db;
     
     private function __construct()
@@ -48,8 +49,54 @@ class App
     	header($loc);
     	exit;
     }
-
+    
     public function run()
+    {
+    	$_SESSION['locale'] = 'fr_BE';
+    	
+    	if(defined('FB_APP_ID'))
+    	{
+    		$this->runFacebook();
+    	}
+    	else
+    	{
+    		$this->runStandalone();
+    	}
+    }
+    
+    private function runFacebook()
+    {
+    	$this->fb = new \Facebook([
+			'appId' => FB_APP_ID,
+    		'secret' => FB_APP_SECRET	
+    	]);
+        
+    	// received requests from other users in app
+        if (isset($_SESSION['request_ids']))
+        {
+        	$requestList = explode(",", $_SESSION['request_ids']);
+        	foreach($requestList as $req)
+        	{
+        		var_dump($this->fb->api('/'.$req));
+        	}
+            exit;
+        }
+    	
+    	$signedRequest = $this->fb->getSignedRequest();
+    	if (isset($signedRequest['user']['locale']))
+    	{
+    		$_SESSION['locale'] = $signedRequest['user']['locale'];
+    	}
+    	
+    	User::loginFacebook($this->fb);
+        
+        if (isset($_SESSION['user']))
+        {
+        	include( TEMPLATES_PATH . 'main.tpl' );
+        }    	
+    }
+
+    private function runStandalone()
     {
         $okMessage = false;
         $errorMessage = false;
