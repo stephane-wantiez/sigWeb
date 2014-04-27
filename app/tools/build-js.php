@@ -54,7 +54,7 @@ function generateConfigFile(&$filesContent,$targetFile)
 $basePath = '../../';
 $sourcePath = $basePath . 'web-static-src/';
 $targetFile = $basePath . 'web-static/js/script.js';
-$filesContent = [];
+$filesContent = array();
 
 echo "Building JavaScript script file..." . NL;
 echo "Source path: " . realpath($sourcePath) . NL;

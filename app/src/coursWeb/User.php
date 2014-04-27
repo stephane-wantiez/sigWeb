@@ -31,20 +31,20 @@ class User
 		$this->lastName = $lastName;
 		$this->email = $email;
 		$this->picture = $picture;
-		$this->friends = [];
+		$this->friends = array();
 	}
 	
 	public function addXP($xpIncrement)
 	{		
 		$db = App::getInstance()->getDb();
 		$query = $db->prepare('UPDATE user SET xp=xp+:xpInc WHERE id=:id');		
-		if (!$query->execute([ 'xpInc' => $xpIncrement, 'id' => $this->id ]))
+		if (!$query->execute(array( 'xpInc' => $xpIncrement, 'id' => $this->id )))
 		{
 			throw new UserException("Couldn't update user XP in DB");
 		}
 
 		$query = $db->prepare('SELECT xp FROM user WHERE id=:id');		
-		if (!$query->execute([ 'id' => $this->id ]))
+		if (!$query->execute(array( 'id' => $this->id )))
 		{
 			throw new UserException("Couldn't update user XP in DB");
 		}
@@ -61,14 +61,14 @@ class User
 	
 	public function toJSON()
 	{
-		return json_encode([
+		return json_encode(array(
 			'name'    => $this->login,
 			'xp'      => $this->xp,
 			'hp'      => $this->hp,
 			'power'   => $this->power,
 			'picture' => $this->picture,
 			'friends' => $this->friends
-		]);
+		));
 	}
 	
 	private static function getPasswordHash($password)
@@ -86,7 +86,7 @@ class User
 		$db = App::getInstance()->getDb();
 		$query = $db->prepare('SELECT * FROM user WHERE login=:login');
 		
-		if ($query->execute([ 'login' => $login ]))
+		if ($query->execute(array( 'login' => $login )))
 		{
 			$userData = $query->fetch();
 		
@@ -109,10 +109,10 @@ class User
 	
 	private static function authentifyAppOnFacebook(\Facebook $fb)
 	{
-		$fbLoginUrl = $fb->getLoginUrl([
+		$fbLoginUrl = $fb->getLoginUrl(array(
 			'scope' => 'email,user_likes,publish_actions',
 			'redirect_uri' => 'https://apps.facebook.com' . FB_APP_NAMESPACE
-		]);
+		));
 		
 		die('<!doctype html><html><body>
 			 	<script>
@@ -128,14 +128,14 @@ class User
 			
 		//var_dump($fbUser);
 		
-		$params = [ 'login' 	=> $this->firstName,
-					'xp'    	=> $this->xp,
-					'hp'    	=> $this->hp,
-					'power' 	=> $this->power,
-					'fbId'  	=> $this->fbId,
-					'firstName' => $this->firstName,
-					'lastName'  => $this->lastName,
-					'email'     => $this->email ];
+		$params = array( 'login' 	=> $this->firstName,
+						 'xp'    	=> $this->xp,
+						 'hp'    	=> $this->hp,
+						 'power' 	=> $this->power,
+						 'fbId'  	=> $this->fbId,
+						 'firstName' => $this->firstName,
+						 'lastName'  => $this->lastName,
+						 'email'     => $this->email );
 			
 		if (!$query->execute($params))
 		{
@@ -144,7 +144,7 @@ class User
 			
 		$query = $db->prepare('SELECT id FROM user WHERE login=:login, fbId=:fbId, email=:email');
 			
-		if (!$query->execute([ 'login' => $this->firstName, 'fbId' => $this->fbId, 'email' => $this->email ]))
+		if (!$query->execute(array( 'login' => $this->firstName, 'fbId' => $this->fbId, 'email' => $this->email )))
 		{
 			throw new UserException("Couldn't get created user from DB");
 		}
@@ -191,22 +191,22 @@ class User
 	private function loadUser()
 	{
 		$queryStr = '';
-		$params = [];
+		$params = array();
 		
 		if ($id != 0)
 		{
 			$query = 'SELECT * FROM user WHERE id=:id';
-			$params = [ 'id' => $this->id ];
+			$params = array( 'id' => $this->id );
 		}
 		else if ($fbId != 0)
 		{
 			$query = 'SELECT * FROM user WHERE fbId=:fbId';
-			$params = [ 'fbId' => $this->fbId ];
+			$params = array( 'fbId' => $this->fbId );
 		}
 		else if ($login != "")
 		{
 			$query = 'SELECT * FROM user WHERE login=:login';
-			$params = [ 'login' => $this->login ];
+			$params = array( 'login' => $this->login );
 		}
 		else
 		{
@@ -239,7 +239,7 @@ class User
 		$db = App::getInstance()->getDb();
 		$query = $db->prepare('SELECT * FROM user WHERE fbId=:fbId');
 		
-		if (!$query->execute([ 'fbId' => $fbUserId ]))
+		if (!$query->execute(array( 'fbId' => $fbUserId )))
 		{
 			throw new UserException("Couldn't get facebook user from DB");
 		}
@@ -254,14 +254,14 @@ class User
 			
 			//var_dump($fbUser);
 	
-			$params = [ 'login' 	=> $fbUser['first_name'],
-						'xp'    	=> 0,
-						'hp'    	=> 100,
-						'power' 	=> 0,
-						'fbId'  	=> $fbUserId,
-						'firstName' => $fbUser['first_name'],
-						'lastName'  => $fbUser['last_name'],
-						'email'     => $fbUser['email']];
+			$params = array( 'login' 	=> $fbUser['first_name'],
+							 'xp'    	=> 0,
+							 'hp'    	=> 100,
+							 'power' 	=> 0,
+							 'fbId'  	=> $fbUserId,
+							 'firstName' => $fbUser['first_name'],
+							 'lastName'  => $fbUser['last_name'],
+							 'email'     => $fbUser['email']);
 			
 			if (!$query->execute($params))
 			{
@@ -270,7 +270,7 @@ class User
 			
 			$query = $db->prepare('SELECT * FROM user WHERE fbId=:fbId');
 			
-			if (!$query->execute([ 'fbId' => $fbUserId ]))
+			if (!$query->execute(array( 'fbId' => $fbUserId )))
 			{
 				throw new UserException("Couldn't get created facebook user from DB");
 			}
@@ -308,7 +308,7 @@ class User
 			$db = App::getInstance()->getDb();
 			$query = $db->prepare('SELECT 1 as value FROM user WHERE login=:login');
 		
-			if ($query->execute([ 'login' => $login ]))
+			if ($query->execute(array( 'login' => $login )))
 			{
 				if ($query->fetch())
 				{
@@ -319,7 +319,7 @@ class User
 					$passwordHash = self::getPasswordHash($password);
 					$query = $db->prepare('INSERT INTO user ( login, password ) VALUES ( :login , :password )');
 		
-					if ($query->execute([ 'login' => $login, 'password' => $passwordHash ]))
+					if ($query->execute(array( 'login' => $login, 'password' => $passwordHash )))
 					{
 						return true;
 					}
@@ -341,7 +341,7 @@ class User
 		$db = App::getInstance()->getDb();
 		$query = $db->prepare('DELETE FROM user WHERE id=:id');
 		
-		if (!$query->execute([ 'id' => $this->id ]))
+		if (!$query->execute(array( 'id' => $this->id )))
 		{
 			throw new UserException('Couldn\'t execute delete query on DB');
 		}
@@ -359,7 +359,7 @@ class User
 			throw new UserException('Couldn\'t execute delete query on DB');
 		}
 		
-		$this->friends = [];
+		$this->friends = array();
 		
 		while($friendInfo = $query->fetch())
 		{
@@ -374,7 +374,7 @@ class User
 		
 		if ($friends && isset($friends["data"]))
 		{
-			$friendsId = [];
+			$friendsId = array();
 			
 			foreach($friends['data'] as $friend)
 			{

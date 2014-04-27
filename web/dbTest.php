@@ -23,9 +23,9 @@ if (isset($_GET["minId"]))
 var_dump($minId);
 $query = $db->prepare('SELECT name,id FROM testtable WHERE id >= :id_min ' );
 
-if ($query->execute(['id_min' => $minId]))
+if ($query->execute(array( 'id_min' => $minId )))
 {
-    $list = [];
+    $list = array();
 
     while($res = $query->fetch())
     {

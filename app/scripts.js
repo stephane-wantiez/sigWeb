@@ -256,7 +256,6 @@ Camera.prototype.render = function(g)
 var Game = function()
 {
 	var self = this;
-	var sleep = 1;
 	this.localTime = 0;
 	this.globalTime = 0;
 	this.timeSinceLoadingEnd = 0;
@@ -711,7 +710,7 @@ $.shuffle = function(list){
 $.clamp = function(value,min,max)
 {
     return Math.max(Math.min(value,max),min);
-}
+};
 
 $.distanceBetweenPointsSquared = function(p1x,p1y,p2x,p2y)
 {
@@ -951,7 +950,6 @@ Ennemy.prototype.setScale = function(scale){
 
 var Mob = function(assetManager,id)
 {
-	var self = this;
 	Character.call(this);
     
     this.id = id;
@@ -1156,7 +1154,7 @@ Player.prototype.attack = function()
 Player.prototype.isKeyDown = function(k)
 {
     return this.keyList[k];
-}
+};
 
 Player.prototype.onKeyDown = function(k){
     //console.log("Key down: " + k);

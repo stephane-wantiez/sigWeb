@@ -13,8 +13,8 @@ echo 'Building config file for ' . $configType . NL;
 $mainPath = "../config/";
 $secPath = $mainPath . $configType . '/';
 
-$pathes = [ $mainPath, $secPath ];
-$filesContent = [];
+$pathes = array( $mainPath, $secPath );
+$filesContent = array();
 
 foreach( $pathes as $path )
 {

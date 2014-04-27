@@ -66,10 +66,10 @@ class App
     
     private function runFacebook()
     {
-    	$this->fb = new \Facebook([
+    	$this->fb = new \Facebook(array(
 			'appId' => FB_APP_ID,
     		'secret' => FB_APP_SECRET	
-    	]);
+    	));
         
     	// received requests from other users in app
         if (isset($_SESSION['request_ids']))
@@ -122,7 +122,7 @@ class App
 	        {
 	        	$_SESSION['user']->delete();
 	        	session_destroy();
-				$this->reloadPageWithParams(['user-deleted' => 1]);
+				$this->reloadPageWithParams(array( 'user-deleted' => 1 ));
 	        }
 	        else if (isset($_REQUEST['action-login']) || isset($_REQUEST['action-register']))
 	        {
@@ -142,7 +142,7 @@ class App
 	                if (isset($_REQUEST['action-register']))
 	                {
                 		User::register($login, $password);
-                		$this->reloadPageWithParams(['user-created' => $login]);
+                		$this->reloadPageWithParams(array( 'user-created' => $login ));
 	                }
 	                else if (isset($_REQUEST['action-login']))
 	                {
@@ -190,13 +190,13 @@ class App
     				
 		    	switch($action)
 		    	{
-		    		case 'addXP': $resXP = $user->addXP($data); $res = [ 'xp' => $resXP ]; break;
+		    		case 'addXP': $resXP = $user->addXP($data); $res = array( 'xp' => $resXP ); break;
 		    	}				    	
 	    	}
    		}
    		catch(UserException $e)
    		{
-   			$res = [ 'error' => $e->getMessage(), 'reload' => true ];
+   			$res = array( 'error' => $e->getMessage(), 'reload' => true );
    		}
    		
 		if ($res) echo json_encode($res);

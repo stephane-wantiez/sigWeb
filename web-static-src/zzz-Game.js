@@ -1,7 +1,6 @@
 var Game = function()
 {
 	var self = this;
-	var sleep = 1;
 	this.localTime = 0;
 	this.globalTime = 0;
 	this.timeSinceLoadingEnd = 0;

@@ -1233,7 +1233,6 @@ Ennemy.prototype.setScale = function(scale){
 
 var Mob = function(assetManager,id)
 {
-	var self = this;
 	Character.call(this);
     
     this.id = id;
